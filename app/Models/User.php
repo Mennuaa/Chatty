@@ -20,24 +20,15 @@ class User extends Authenticatable
     protected $guarded = [];
     public function conversations()
     {
-        return $this->hasMany(Conversation::class);
+        return $this->hasMany(Conversation::class, 'sender_id')
+                    ->orWhereHas('receiver', function($query) {
+                        $query->where('receiver_id', $this->id);
+                    });
     }
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function scopeNearby($query, $latitude, $longitude, $distance)
+    {
+        $haversine = "(6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))";
+        return $query->select('*')->selectRaw("$haversine AS distance")->whereRaw("$haversine <= ?", [$distance]);
+    }
+   
 }
