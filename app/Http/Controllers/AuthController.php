@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\EmailOrPhoneRequired;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,19 +14,37 @@ class AuthController extends Controller
     // Register user
     public function register(Request $request)
 {
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'phone' => 'required|string|max:255|unique:users',
-        'password' => 'required|string|confirmed',
-        'age' => 'nullable|integer',
-        'gender' => 'required|string'
-    ]);
+    
+$validator = Validator::make($request->all(), [
+    'name' => 'required|string|max:255',
+    'email' => [
+        'nullable',
+        'string',
+        'email',
+        'max:255',
+        'unique:users',
+        new EmailOrPhoneRequired()
+    ],
+    'phone' => [
+        'nullable',
+        'string',
+        'max:255',
+        'unique:users',
+        new EmailOrPhoneRequired()
+    ],
+    'password' => 'required|string|confirmed',
+    'age' => 'nullable|integer',
+    'gender' => 'required|string'
+]);
 
     if ($validator->fails()) {
         return response()->json($validator->errors(), 400);
     }
 
+    if(empty($request->email) && empty($request->phone)){
+        return 'Телефон либо электронная почта должна быть заполнена';
+
+    }
     $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
