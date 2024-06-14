@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -15,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('stories:deactivate')->daily();
     }
 
     /**

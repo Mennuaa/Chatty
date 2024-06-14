@@ -53,10 +53,13 @@ $validator = Validator::make($request->all(), [
         'age' => $request->age,
         'gender' => $request->gender
     ]);
+    $token = $user->createToken('Personal Access Token')->plainTextToken;
 
     return response()->json([
         'message' => 'User successfully registered',
-        'user' => $user
+        'user' => $user,
+        'token' => $token
+
     ], 201);
 }
 

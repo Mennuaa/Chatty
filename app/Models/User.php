@@ -21,14 +21,17 @@ class User extends Authenticatable
     public function conversations()
     {
         return $this->hasMany(Conversation::class, 'sender_id')
-                    ->orWhereHas('receiver', function($query) {
-                        $query->where('receiver_id', $this->id);
-                    });
+            ->orWhereHas('receiver', function ($query) {
+                $query->where('receiver_id', $this->id);
+            });
     }
     public function scopeNearby($query, $latitude, $longitude, $distance)
     {
         $haversine = "(6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))";
         return $query->select('*')->selectRaw("$haversine AS distance")->whereRaw("$haversine <= ?", [$distance]);
     }
-   
+    public function images()
+    {
+        return $this->hasMany(UserImage::class);
+    }
 }
