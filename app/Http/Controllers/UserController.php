@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function anketa(Request $request){
+        $user = auth()->user();
+        $user->update($request->all());
+        $user->save();
+        return response()->json(UserResource::make($user), 200);
+
+    }
 
     public function getUsers()
     {

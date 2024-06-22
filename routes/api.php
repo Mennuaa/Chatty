@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/conversations', [ConversationController::class, 'store']);
     Route::get('/conversations/{conversation}', [ConversationController::class, 'show']);
     Route::post('/messages',[MessageController::class, 'store']);
+    
+    Route::post('/anketa', [UserController::class, 'anketa']);
     Route::get('/conversations/{conversation}/messages', [MessageController::class, 'index']);
 
     Route::post('/stories', [UserController::class, 'createStory']);

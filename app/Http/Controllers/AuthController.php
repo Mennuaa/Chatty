@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     
 $validator = Validator::make($request->all(), [
-    'name' => 'required|string|max:255',
+    // 'name' => 'required|string|max:255',
     'email' => [
         'nullable',
         'string',
@@ -32,9 +32,7 @@ $validator = Validator::make($request->all(), [
         'unique:users',
         new EmailOrPhoneRequired()
     ],
-    'password' => 'required|string|confirmed',
-    'age' => 'nullable|integer',
-    'gender' => 'required|string'
+    'password' => 'required|string|confirmed'
 ]);
 
     if ($validator->fails()) {
@@ -46,12 +44,13 @@ $validator = Validator::make($request->all(), [
 
     }
     $user = User::create([
-        'name' => $request->name,
+        'name' => $request->name ?? 'user' . rand(1, 1000),
         'email' => $request->email,
         'phone' => $request->phone,
         'password' => Hash::make($request->password),
-        'age' => $request->age,
-        'gender' => $request->gender
+        'age' => $request->age ?? 18,
+        
+        'gender' => $request->gender ?? 'male'
     ]);
     $token = $user->createToken('Personal Access Token')->plainTextToken;
 
