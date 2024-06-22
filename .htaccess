@@ -1,0 +1,15 @@
+# Set an environment variable if Authorization header is present
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect to public folder if not already in it
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Handle all other requests using Laravel's index.php
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

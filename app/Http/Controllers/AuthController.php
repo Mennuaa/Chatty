@@ -34,7 +34,7 @@ $validator = Validator::make($request->all(), [
     ],
     'password' => 'required|string|confirmed',
     'age' => 'nullable|integer',
-    'gender' => 'required|string'
+    // 'gender' => 'required|string'
 ]);
 
     if ($validator->fails()) {
@@ -51,7 +51,7 @@ $validator = Validator::make($request->all(), [
         'phone' => $request->phone,
         'password' => Hash::make($request->password),
         'age' => $request->age,
-        'gender' => $request->gender
+        'gender' => $request->gender ?  $request->gender : "male"
     ]);
     $token = $user->createToken('Personal Access Token')->plainTextToken;
 
