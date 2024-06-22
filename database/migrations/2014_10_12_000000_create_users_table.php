@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('latitude')->nullable(true);
             $table->string('longitude')->nullable(true);
+            $table->text('description')->nullable(true);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -18,12 +18,13 @@ class UserResource extends JsonResource
             "id"=> $this->id,
             "name"=> $this->name,
             "email"=> $this->email,
-            "image"=> $this->image,
+            "avatar"=> $this->image,
             "gender"=> $this->gender,
             "age"=> $this->age,
             "phone"=> $this->phone,
             "longitude"=> $this->longitude,
             "latitude"=> $this->latitude,
+            "description"=> $this->description,
             "images"=>UserImageResource::collection($this->images),
 
         ];
