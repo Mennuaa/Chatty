@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Story;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -25,6 +26,7 @@ class UserResource extends JsonResource
             "longitude"=> $this->longitude,
             "latitude"=> $this->latitude,
             "description"=> $this->description,
+            "stories"=> Story::where('user_id', $this->id)->get(),
             "images"=>UserImageResource::collection($this->images),
 
         ];
