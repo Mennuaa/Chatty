@@ -52,6 +52,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/{id}/images', [UserImageController::class, 'getAllImages']);
     Route::get('/user/{id}/images/{imageId}', [UserImageController::class, 'getImage']);
 
+    Route::post('/upload-video', [UserController::class, 'uploadVideo']);
+    Route::post('/video/{video}/comment', [UserController::class, 'addComment']);
+    Route::post('/video/{video}/like', [UserController::class, 'addLike']);
+    Route::get('/random-videos', [UserController::class, 'getRandomVideos']);
+
+
     Route::post('/image/{imageId}/like', [UserImageController::class, 'likeImage']);
     Route::delete('/image/{imageId}/unlike', [UserImageController::class, 'unlikeImage']);
 
