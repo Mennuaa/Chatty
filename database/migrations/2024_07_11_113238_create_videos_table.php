@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('video');
-            $table->text('description')->default('');
+            $table->text('description');
             $table->timestamps();
         });
     }
